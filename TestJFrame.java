@@ -3,47 +3,27 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class main extends JFrame {
-  // Anfang Attribute
-  // Ende Attribute
+public class TestJFrame extends JFrame {
   
-  public main(boolean isTeacher) { 
-    // Frame-Initialisierung
+  public TestJFrame() { 
     super();
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     int frameWidth = 1000; 
-    int frameHeight = 600;
+    int frameHeight = 650;
     setSize(frameWidth, frameHeight);
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     int x = (d.width - getSize().width) / 2;
     int y = (d.height - getSize().height) / 2;
     setLocation(x, y);
-    setTitle("main");
+    setTitle("Schüler Sprechtag");
     setResizable(false);
     Container cp = getContentPane();
     cp.setLayout(null);
-    // Anfang Komponenten
-    
-    // Ende Komponenten
-    
+    cp.add(new FragenDialog(false));
     setVisible(true);
-  } // end of public main
-  
-  // Anfang Methoden
+  }
   
   public static void main(String[] args) {
-    new main();
+    new TestJFrame();
   } // end of main
-  
-  public void createTeacherUI() {
-  
-  }
-  
-  public void createStudentUI() {
-  
-  }
-  
-  
-  
-  // Ende Methoden
-} // end of class main
+}
