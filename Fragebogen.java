@@ -1,7 +1,4 @@
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 public class Fragebogen extends JPanel {
     public Fragebogen(boolean istLehrer, int panelX, int panelY, int panelWidth, int panelHeight) {
