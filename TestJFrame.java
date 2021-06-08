@@ -17,7 +17,7 @@ public class TestJFrame extends JFrame {
     setResizable(false);
     Container cp = getContentPane();
     cp.setLayout(null);
-    cp.add(new FragenDialog(false));
+    cp.add(new FragenDialog(true));
     setVisible(true);
   }
   

@@ -9,5 +9,5 @@ public class KonstanteWerte {
     }; //von dunkel nach hell
 
     protected static Color FOKUS_FARBE = new Color(243, 156, 18);
-    protected static Color STANDART_FARBE = new Color(255, 255, 255);
+    protected static Color STANDARD_FARBE = new Color(255, 255, 255);
 }
