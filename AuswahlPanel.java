@@ -1,13 +1,12 @@
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.*;
 
 public class AuswahlPanel extends JPanel {
     ActionListener actionListener;
     int panelWidth;
     SchuelerAuswahlButton[] schuelerAuswahlButtons;
     SchuelerAuswahlButton letzterButton;
-    JScrollPane buttonListe;
+    JScrollPane buttonListenScrollPane = new JScrollPane();
 
     public AuswahlPanel(boolean istLehrer, int panelX, int panelY, int panelWidth, int panelHeight) {
         this.panelWidth = panelWidth;
@@ -17,12 +16,16 @@ public class AuswahlPanel extends JPanel {
         this.setLayout(null);
         this.setVisible(true);
 
-        JPanel panel = new JPanel();
-        JPanel testing = new JPanel();
-        testing.setBounds(0,0,200,1000);
-        panel.add(testing);
-        JScrollPane scrollPane = new JScrollPane(panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        this.add(scrollPane);
+        String[] bewertet = {"Bernd", "Brigitte", "Beate", "Benjamin", "Ben", "Boris", "Bertholt", "Backstein", "Bert"};
+        String[] unbewertet = {"Ulrich", "Ulma", "Ulricke", "Ursula", "Uli", "Uwu", "Ugonna (dead version)"};
+
+        buttonListenScrollPane.setBounds(0, 60, panelWidth, panelHeight - 100);
+        buttonListenScrollPane.setBackground(KonstanteWerte.BASIS_FARBEN[2]);
+        buttonListenScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        buttonListenScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        buttonListenScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        this.add(buttonListenScrollPane);
+        buttonListenScrollPane.setViewportView(new ButtonListe(bewertet, unbewertet, panelWidth, 0));
 
         if (istLehrer) ladeLehrerUI();
         else ladeSchuelerUI();
