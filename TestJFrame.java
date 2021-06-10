@@ -13,12 +13,12 @@ public class TestJFrame extends JFrame {
     int x = (d.width - getSize().width) / 2;
     int y = (d.height - getSize().height) / 2;
     setLocation(x, y);
-    setTitle("Schüler Sprechtag");
+    setTitle("Schülersprechtag");
     setResizable(false);
     Container cp = getContentPane();
     cp.setLayout(null);
     cp.add(new FragenDialog(true));
-    setVisible(true);
+    setVisible(true); 
   }
   
   public static void main(String[] args) {
