@@ -2,7 +2,24 @@ import javax.swing.*;
 import java.awt.*;
 
 class CustomScrollPane extends JScrollPane {
+    Component element;
+    int panelWidth, panelHeight;
+    Color hintergrundFarbe;
+
+    public CustomScrollPane(int panelWidth, int panelHeight, Component element) {
+        this(panelWidth, panelHeight, element, KonstanteWerte.BASIS_FARBEN[2]);
+    }
+    
     public CustomScrollPane(int panelWidth, int panelHeight, Component element, Color hintergrundFarbe) {
+        this.element = element;
+        this.panelWidth = panelWidth >= 0 ? panelWidth : 0;
+        this.panelHeight = panelHeight >= 0 ? panelHeight : 0;
+        this.hintergrundFarbe = hintergrundFarbe;
+
+        this.erstelleStandardAussehen();
+    }
+
+    private void erstelleStandardAussehen() {
         this.setBounds(0, 60, panelWidth, panelHeight - 96);
         this.setBackground(hintergrundFarbe);
         this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -11,7 +28,8 @@ class CustomScrollPane extends JScrollPane {
         this.setViewportView(element);
     }
 
-    public CustomScrollPane(int panelWidth, int panelHeight, Component element) {
-        this(panelWidth, panelHeight, element, KonstanteWerte.BASIS_FARBEN[2]);
+    public void wechselAngezeigtesElement(Component element) {
+        element.setVisible(false);
+        this.setViewportView(element);
     }
 }

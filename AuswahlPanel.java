@@ -35,11 +35,14 @@ public class AuswahlPanel extends JPanel {
     private void ladeLehrerUI() {
         String[] bewertet = {"Bernd", "Brigitte", "Beate", "Benjamin", "Ben", "Boris", "Bertholt", "Backstein", "Bert"};
         String[] unbewertet = {"Ulrich", "Ulma", "Ulricke", "Ursula", "Uli", "Uwu", "Ugonna (dead)"};
-        buttonListenScrollPane = new CustomScrollPane(panelWidth, panelHeight, new ButtonListe(bewertet, unbewertet, panelWidth, 0), KonstanteWerte.BASIS_FARBEN[2]);
+        buttonListenScrollPane = new CustomScrollPane(panelWidth, panelHeight, new ButtonListe(bewertet, unbewertet, panelWidth, 540, 0));
         this.add(buttonListenScrollPane);
     }
 
     private void ladeSchuelerUI() {
-
+        String[] bewertet = {"Selbsteinschätzung"};
+        String[] unbewertet = {};
+        buttonListenScrollPane = new CustomScrollPane(panelWidth, panelHeight, new ButtonListe(bewertet, unbewertet, panelWidth, 600, 0));
+        this.add(buttonListenScrollPane);
     }
 }
