@@ -40,20 +40,22 @@ public class ButtonListe extends JPanel {
     }
 
     private void erstelleStandardAussehen() {
-        this.setMinimumSize( new Dimension( panelWidth, 540 ) );
-        this.setPreferredSize( new Dimension( panelWidth, 540 ) );
+        int anzahlElemente = unbewertet.length + bewertet.length;
+        this.setMinimumSize( new Dimension( panelWidth, 40 * anzahlElemente + 120 ) );
+        this.setPreferredSize( new Dimension( panelWidth, 40 * anzahlElemente + 120 ) );
         this.setBackground( KonstanteWerte.BASIS_FARBEN[2] );
         this.setLayout( null );
         this.setVisible( true );
     }
 
     private void erstelleListenElemente() {
-        int padding = 20;
+        int padding = 120;
         //int trenner = 20;
-
+        this.add( new ButtonListeLabel( 0, 0, panelWidth, 50, "<HTML><U>Unbewertet</U><HTML>", 25 ) );
+        this.add( new ButtonListeLabel( 0, 40 * unbewertet.length + 60, panelWidth, 60, "<HTML><U>Bewertet    </U><HTML>", 25 ) );
         schuelerAuswahlButtons = new SchuelerAuswahlButton[ unbewertet.length + bewertet.length ];
         for ( int i = 0; i < unbewertet.length; i++ ) {
-            schuelerAuswahlButtons[i] = new SchuelerAuswahlButton( unbewertet[i], 40 * i, panelWidth, actionListener );
+            schuelerAuswahlButtons[i] = new SchuelerAuswahlButton( unbewertet[i], 40 * i + 60, panelWidth, actionListener );
             this.add( schuelerAuswahlButtons[i] );
         }
         for ( int i = 0; i < bewertet.length; i++ ) {

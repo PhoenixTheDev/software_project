@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
-import java.awt.*;
 
 public class AuswahlPanel extends JPanel {
     ActionListener actionListener;
@@ -42,8 +41,8 @@ public class AuswahlPanel extends JPanel {
     }
 
     private void ladeLehrerUI() {
-        String[] bewertet = { "Bernd", "Brigitte", "Beate", "Benjamin", "Ben", "Boris", "Bertholt", "Backstein", "Bert" };
-        String[] unbewertet = { "Ulrich", "Ulma", "Ulricke", "Ursula", "Uli", "Uwu", "Ugonna (dead)" };
+        String[] bewertet = { "Bernd", "Brigitte", "Beate", "Benjamin", "Ben", "Boris", "Bertholt", "Backstein", "Bert", "Bernd", "Brigitte", "Beate", "Benjamin", "Ben", "Boris", "Bertholt", "Backstein", "Bert" };
+        String[] unbewertet = { "Ulrich", "Ulma", "Ulricke", "Ursula", "Uli", "Uwu", "Ugonna (dead)", "Ulrich", "Ulma", "Ulricke", "Ursula", "Uli", "Uwu", "Ugonna (dead)" };
         
         this.suchleisteErstellen();
         buttonListenScrollPane = new CustomScrollPane( panelWidth, panelHeight, new ButtonListe(bewertet, unbewertet, panelWidth, 540, 0 ) );
@@ -64,23 +63,23 @@ public class AuswahlPanel extends JPanel {
 
         suchleiste.getDocument().addDocumentListener( new DocumentListener() {
             public void changedUpdate( DocumentEvent e ) {
-                if( suchleiste.getText().length() <= 0 ) suchleiste.erneuerIcon( suchIcon );
-                else suchleiste.erneuerIcon( loeschenIcon );
-                ladeZubewertendeNeu();
+                suchleistenFunktion();
             }
       
             public void removeUpdate( DocumentEvent e ) {
-                if( suchleiste.getText().length() <= 0 ) suchleiste.erneuerIcon( suchIcon );
-                else suchleiste.erneuerIcon( loeschenIcon );
-                ladeZubewertendeNeu();
+                suchleistenFunktion();
             }
             
             public void insertUpdate( DocumentEvent e ) {
-                if( suchleiste.getText().length() <= 0 ) suchleiste.erneuerIcon( suchIcon );
-                else suchleiste.erneuerIcon( loeschenIcon );
-                ladeZubewertendeNeu();
+                suchleistenFunktion();
             }
         } );
+    }
+
+    private void suchleistenFunktion() {
+        if( suchleiste.getText().length() <= 0 ) suchleiste.erneuerIcon( suchIcon );
+        else suchleiste.erneuerIcon( loeschenIcon );
+        ladeZubewertendeNeu();
     }
 
     private void ladeZubewertendeNeu() {
