@@ -46,6 +46,7 @@ public class ButtonListe extends JPanel {
         this.setBackground( KonstanteWerte.BASIS_FARBEN[2] );
         this.setLayout( null );
         this.setVisible( true );
+        this.setBorder( BorderFactory.createCompoundBorder( this.getBorder(), BorderFactory.createEmptyBorder( 0, 0, 0, 10 ) ) );
     }
 
     private void erstelleListenElemente() {

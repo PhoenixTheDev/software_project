@@ -5,7 +5,11 @@ import javax.swing.*;
 
 public class FragenDialog extends JPanel {
 
+<<<<<<< Updated upstream
   public FragenDialog( boolean istLehrer, String primaerschluessel ) {
+=======
+  public FragenDialog( boolean istLehrer, String id ) {
+>>>>>>> Stashed changes
     super();
     this.setBounds( 0, 50, 1000, 600 );
     this.setBackground( KonstanteWerte.STANDARD_FARBE );

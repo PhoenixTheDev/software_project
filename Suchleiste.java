@@ -33,9 +33,7 @@ public class Suchleiste extends JTextField {
     this.setOpaque( false );
     this.setForeground( KonstanteWerte.STANDARD_FARBE );
     
-    if ( this.icon != null ) this.erstelleIcon();
-
-    
+    if ( this.icon != null ) this.erstelleIcon(); 
   }
 
   private void erstelleIcon() {

@@ -29,7 +29,7 @@ class CustomScrollPane extends JScrollPane {
         this.setViewportView( element );
     }
 
-    private void erstelleCustomScrollbar() {
+    /*private void erstelleCustomScrollbar() {
         this.setLayout( new ScrollPaneLayout() {
             @Override
             public void layoutContainer( Container parent ) {
@@ -59,7 +59,7 @@ class CustomScrollPane extends JScrollPane {
             }
         } );
         this.getVerticalScrollBar().setUI( new CustomScrollbar() );
-    }
+    }*/
 
     public void wechselAngezeigtesElement( Component element ) {
         element.setVisible( false );
