@@ -1,12 +1,11 @@
 import javax.swing.*;
 
 public class FragenHalter extends JPanel {
-    TextAntwort[] checkArray;
-    public FragenHalter( int width, int height, int anzahlCheck, int anzahlText ) {
-        checkArray = new TextAntwort[ anzahlText ];
-    }
+    TextAntwort[] textArray;
+    CheckAntwort[] checkArray;
 
-    public void ladeFragen() {
-        
+    int width, height;
+
+    public FragenHalter( int width, int height ) {
     }
 }

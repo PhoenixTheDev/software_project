@@ -47,11 +47,11 @@ public class CheckAntwort extends JPanel {
                 break;
             }
         }
-        String sql;
+        String sql = "";
         String tabelle = this.idLehrer.equals( "" ) ? "bewertetSchueler" : "bewertetLehrer";
         if ( idLehrer.equals( "" ) ) {
             if ( ueberschreiben ) sql = "UPDATE " + tabelle + " SET antwort=" + cIndex + " WHERE " ;
-            else sql = "INSERT "
+            else sql = "INSERT ";
             
         }
         dbConnector.executeStatement( sql );
