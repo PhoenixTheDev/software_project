@@ -3,10 +3,10 @@ import java.awt.*;
 
 class CustomScrollPane extends JScrollPane {
     Component element;
-    int panelWidth, panelHeight;
+    int panelWidth, panelHeight, y;
     Color hintergrundFarbe;
 
-    public CustomScrollPane( int panelWidth, int panelHeight, Component element ) {
+    public CustomScrollPane( int y, int panelWidth, int panelHeight, Component element ) {
         this( panelWidth, panelHeight, element, KonstanteWerte.BASIS_FARBEN[2] );
     }
     
@@ -21,9 +21,9 @@ class CustomScrollPane extends JScrollPane {
     }
 
     private void erstelleStandardAussehen() {
-        this.setBounds( 0, 60, panelWidth, panelHeight - 96 );
+        this.setBounds( 0, y, panelWidth, panelHeight - 96 );
         this.setBackground( hintergrundFarbe );
-        this.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
+        this.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED );
         this.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         this.setBorder( BorderFactory.createEmptyBorder() );
         this.setViewportView( element );
