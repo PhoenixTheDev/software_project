@@ -1,11 +1,9 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 public class Fragebogen extends JPanel {
     CustomScrollPane scrollWindow;
     DatabaseConnector databaseConnector;
     FragenHalter fragenHalter;
-    JButton bSpeichern;
 
     boolean istLehrer;
     int anzahlFragen, x, y, width, height;
@@ -23,7 +21,7 @@ public class Fragebogen extends JPanel {
         
         this.design();
 
-        scrollWindow = new CustomScrollPane( width, height, new FragenHalter( width, height ), KonstanteWerte.BASIS_FARBEN[ 3 ] );
+        scrollWindow = new CustomScrollPane( 0, width, height, new FragenHalter( width, height, false, databaseConnector, "", "" ), KonstanteWerte.BASIS_FARBEN[ 3 ] );
         this.add( scrollWindow );
 
         //die Anzahl der Lehrerfragen bekommen
@@ -36,15 +34,6 @@ public class Fragebogen extends JPanel {
         this.setBounds( x, y, width, height );
         this.setBackground( KonstanteWerte.BASIS_FARBEN[3] );
         this.setLayout( null );
-
-        //save button designen
-        bSpeichern = new JButton();
-        bSpeichern.setBounds( width / 2 - 50, 5950, 100, 50);
-        bSpeichern.setText( "Speichern" );
-        bSpeichern.setForeground( KonstanteWerte.STANDARD_FARBE );
-        bSpeichern.setBackground( KonstanteWerte.BASIS_FARBEN[0] );
-        bSpeichern.setBorder( new LineBorder( KonstanteWerte.STANDARD_FARBE ) );
-        this.add( bSpeichern );
     }
 
     public void ladeFragen( String idSchueler ) {
@@ -76,16 +65,20 @@ public class Fragebogen extends JPanel {
         QueryResult qr = databaseConnector.getCurrentQueryResult();
         String[][] data = qr.getData(); //Aufbau von Data Tabelle < id | frage | kategorie | antwort >
         
-        fragenHalter = new FragenHalter( this.width, 6000 );
+        fragenHalter = new FragenHalter( this.width, 6000, true, databaseConnector, idSchueler, idLehrer );
         
-        int xPos = this.padding;
-        for ( int i = 0; i < qr.getRowCount(); i++ ) {
-            if ( data[ i ][ 2 ].equals( "mc" ) ) {
-                fragenHalter.add( new CheckAntwort( xPos, paddingBorders, this.width - paddingBorders * 2, data[i][1], data[i][0] ) );
-                xPos += this.padding + CheckAntwort.HEIGHT;
+        int yPos = this.padding;
+        for ( int i = 0, a = 0; i < qr.getRowCount(); i++ ) {
+            if ( data[i][2].equals( "mc" ) ) {
+                CheckAntwort tempCheck = new CheckAntwort( paddingBorders, yPos, this.width - paddingBorders * 2, data[i][1], data[i][0] );
+                if ( checkStatistik.length > 0 )
+                    tempCheck.ladeStatistik( checkStatistik[a].split(";") );
+                fragenHalter.add( tempCheck );
+                a++;
+                yPos += this.padding + CheckAntwort.HEIGHT;
             } else { //muss dann eine text antwort sein
-                fragenHalter.add( new TextAntwort( xPos, paddingBorders, this.width - paddingBorders * 2, data[i][1], data[i][0] ) );
-                xPos += this.padding + TextAntwort.HEIGHT;
+                fragenHalter.add( new TextAntwort( paddingBorders, yPos, this.width - paddingBorders * 2, data[i][1], data[i][0] ) );
+                yPos += this.padding + TextAntwort.HEIGHT;
             }
         }
         
@@ -104,16 +97,16 @@ public class Fragebogen extends JPanel {
         QueryResult qr = databaseConnector.getCurrentQueryResult();
         String[][] data = qr.getData(); //Aufbau von Data Tabelle < id | frage | kategorie | antwort >
         
-        fragenHalter = new FragenHalter( this.width, 6000 );
+        fragenHalter = new FragenHalter( this.width, 6000, true, databaseConnector, idSchueler, "" );
         
-        int xPos = this.padding;
+        int yPos = this.padding;
         for ( int i = 0; i < qr.getRowCount(); i++ ) {
             if ( data[i][2].equals( "mc" ) ) {
-                fragenHalter.add( new CheckAntwort( xPos, paddingBorders, this.width - paddingBorders * 2, data[i][1], data[i][0] ) );
-                xPos += this.padding + CheckAntwort.HEIGHT;
+                fragenHalter.add( new CheckAntwort( paddingBorders, yPos, this.width - paddingBorders * 2, data[i][1], data[i][0] ) );
+                yPos += this.padding + CheckAntwort.HEIGHT;
             } else { //muss dann eine text antwort sein
-                fragenHalter.add( new TextAntwort( xPos, paddingBorders, this.width - paddingBorders * 2, data[i][1], data[i][0] ) );
-                xPos += this.padding + TextAntwort.HEIGHT;
+                fragenHalter.add( new TextAntwort( paddingBorders, yPos, this.width - paddingBorders * 2, data[i][1], data[i][0] ) );
+                yPos += this.padding + TextAntwort.HEIGHT;
             }
         }
         
@@ -121,14 +114,6 @@ public class Fragebogen extends JPanel {
     }
 
     private void aktualisiereFenster() {
-        scrollWindow.wechselAngezeigtesElement( fragenHalter );
-    }
-
-    public void disableSaveButton() {
-        bSpeichern.setVisible( false );
-    }
-
-    public void enableSaveButton() {
-        bSpeichern.setVisible( true );
+        scrollWindow.aktualisiereElement( fragenHalter );
     }
 }

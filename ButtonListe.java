@@ -30,12 +30,13 @@ public class ButtonListe extends JPanel {
                     if ( letzterButton != null )
                         letzterButton.setForeground( KonstanteWerte.STANDARD_FARBE );
                     letzterButton = ( (SchuelerAuswahlButton) e.getSource() );
+                    letzterButton.setForeground( KonstanteWerte.FOKUS_FARBE );
 
                     if ( letzterButton.getText().equals( "Selbstbewertung" ) )    fragebogen.ladeFragen( id );
                     else {
                         String[] name = letzterButton.getText().split( " " );
                         databaseConnector.executeStatement( "SELECT id FROM schueler WHERE name = \"" + name[0] + "\" AND vorname = \"" + name[1] + "\"" );
-                        fragebogen.ladeFragen( id, databaseConnector.getCurrentQueryResult().getData()[0][0] );
+                        fragebogen.ladeFragen( databaseConnector.getCurrentQueryResult().getData()[0][0], id );
                     }
                 }
             }

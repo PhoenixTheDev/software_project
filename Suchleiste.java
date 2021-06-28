@@ -5,13 +5,14 @@ import java.awt.geom.*;
 
 public class Suchleiste extends JTextField {
   int panelX, panelY, width, height, rundung;
+  final ImageIcon suchIcon = new ImageIcon( "Icons/search.png" ), loeschenIcon = new ImageIcon( "Icons/close.png" );
   private Shape shape;
   JLabel iconHalter;
   Suchleiste suchleiste;
   ImageIcon icon;
 
   // ---------- Anfangsmethoden --------------
-  public Suchleiste( int panelX, int panelY, int width, int height, int rundung, ImageIcon icon ) {
+  public Suchleiste( int panelX, int panelY, int width, int height, int rundung ) {
     super( rundung );
 
     this.panelX = panelX;
@@ -19,7 +20,7 @@ public class Suchleiste extends JTextField {
     this.width = width;
     this.height = height;
     this.rundung = rundung;
-    this.icon = icon;
+    this.icon = suchIcon;
     this.suchleiste = this;
 
     this.erstelleStandardAussehen();
@@ -50,9 +51,9 @@ public class Suchleiste extends JTextField {
     } );
   }
 
-  public void erneuerIcon( ImageIcon icon ) {
-    if ( icon != null ) {
-      iconHalter.setIcon( icon );
+  public void erneuerIcon( int index ) {
+    if ( index == 1 || index == 0 ) {
+      iconHalter.setIcon( index == 0 ? suchIcon : loeschenIcon );
       iconHalter.setVisible( true );
     }
     else iconHalter.setVisible( false );

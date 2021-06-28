@@ -7,7 +7,6 @@ public class AuswahlPanel extends JPanel {
     ActionListener actionListener;
     
     int width, height, x, y;
-    final ImageIcon suchIcon = new ImageIcon( "Icons/search.png" ), loeschenIcon = new ImageIcon( "Icons/close.png" );
     DatabaseConnector databaseConnector;
     QueryResult qr;
     String kuerzel, id;
@@ -29,9 +28,9 @@ public class AuswahlPanel extends JPanel {
         this.databaseConnector = databaseConnector;
         this.fragebogen = fragebogen;
 
-        this.erstelleStandardAussehen();
+        this.erstelleAussehen();
 
-        if( istLehrer == true ){     
+        if( istLehrer ){     
           this.kuerzel = primaerschluessel;
           this.id = "";
           ladeLehrerUI();
@@ -43,7 +42,7 @@ public class AuswahlPanel extends JPanel {
         }
     }
 
-    private void erstelleStandardAussehen() {
+    private void erstelleAussehen() {
         this.setBounds( x, y, width, height );
         this.setBackground( KonstanteWerte.BASIS_FARBEN[ 2 ] );
         this.setLayout( null );
@@ -55,7 +54,7 @@ public class AuswahlPanel extends JPanel {
         String[] unbewertet = getUnbewerteteSchueler( "" );
         
         this.suchleisteErstellen(); //man kann nur suchen, wenn man lehrer ist
-        buttonListenScrollPane = new CustomScrollPane( 60, width, height, new ButtonListe( bewertet, unbewertet, width, 540, 0, databaseConnector, fragebogen, id ) );
+        buttonListenScrollPane = new CustomScrollPane( 60, width, height, new ButtonListe( bewertet, unbewertet, width, 540, 0, databaseConnector, fragebogen, kuerzel ) );
         this.add( buttonListenScrollPane );
     }
 
@@ -83,7 +82,7 @@ public class AuswahlPanel extends JPanel {
     }
 
     private void suchleisteErstellen() {
-        suchleiste = new Suchleiste( 10, 10, 240, 40, 40, suchIcon );
+        suchleiste = new Suchleiste( 10, 10, 240, 40, 40 );
         this.add( suchleiste );
 
         suchleiste.getDocument().addDocumentListener( new DocumentListener() {
@@ -102,8 +101,8 @@ public class AuswahlPanel extends JPanel {
     }
 
     private void suchleistenFunktion() {
-        if ( suchleiste.getText().length() <= 0 ) suchleiste.erneuerIcon( suchIcon );
-        else suchleiste.erneuerIcon( loeschenIcon );
+        if ( suchleiste.getText().length() <= 0 ) suchleiste.erneuerIcon( 0 );
+        else suchleiste.erneuerIcon( 1 );
         ladeZubewertendeNeu();
     }
 
@@ -125,7 +124,7 @@ public class AuswahlPanel extends JPanel {
             + "JOIN beantwortetLehrer AS b "
             + "ON s.id = b.schueler "
             + "WHERE b.kuerzel = \"" + kuerzel + "\" "
-            + ( suche.equals( "" ) ? "" : "AND s.name = \"%" + suche +  "%\"" ); //alle beantworteten schueler bekommen
+            + ( suche.equals( "" ) ? "" : "AND (s.name LIKE \"%" + suche +  "%\" OR s.vorname LIKE \"%" + suche + "%\")" ); //alle beantworteten schueler bekommen
 
         databaseConnector.executeStatement(sqlBewertet);
         qr = databaseConnector.getCurrentQueryResult();
@@ -148,7 +147,7 @@ public class AuswahlPanel extends JPanel {
                 + "JOIN beantwortetLehrer AS b "
                 + "ON s.id = b.schueler "
                 + "WHERE b.kuerzel = \"" + kuerzel + "\") "
-            + ( suche.equals( "" ) ? "" : "AND s.name = \"" + suche +  "\"" ); //alle unbeantworteten schueler bekommen
+            + ( suche.equals( "" ) ? "" : "AND (s.name LIKE \"%" + suche +  "%\" OR s.vorname LIKE \"%" + suche + "%\")" ); //alle unbeantworteten schueler bekommen
 
         databaseConnector.executeStatement( sqlUnbewertet );
         qr = databaseConnector.getCurrentQueryResult();

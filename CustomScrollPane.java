@@ -7,21 +7,22 @@ class CustomScrollPane extends JScrollPane {
     Color hintergrundFarbe;
 
     public CustomScrollPane( int y, int panelWidth, int panelHeight, Component element ) {
-        this( panelWidth, panelHeight, element, KonstanteWerte.BASIS_FARBEN[2] );
+        this( y, panelWidth, panelHeight, element, KonstanteWerte.BASIS_FARBEN[2] );
     }
     
-    public CustomScrollPane( int panelWidth, int panelHeight, Component element, Color hintergrundFarbe ) {
+    public CustomScrollPane( int y, int panelWidth, int panelHeight, Component element, Color hintergrundFarbe ) {
         this.element = element;
         this.panelWidth = panelWidth >= 0 ? panelWidth : 0;
         this.panelHeight = panelHeight >= 0 ? panelHeight : 0;
         this.hintergrundFarbe = hintergrundFarbe;
+        this.y = y;
 
         this.erstelleStandardAussehen();
         //this.erstelleCustomScrollbar();
     }
 
     private void erstelleStandardAussehen() {
-        this.setBounds( 0, y, panelWidth, panelHeight - 96 );
+        this.setBounds( 0, y, panelWidth, panelHeight - 60 );
         this.setBackground( hintergrundFarbe );
         this.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED );
         this.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -61,14 +62,10 @@ class CustomScrollPane extends JScrollPane {
         this.getVerticalScrollBar().setUI( new CustomScrollbar() );
     }*/
 
-    public void wechselAngezeigtesElement( Component element ) {
-        element.setVisible( false );
-        this.setViewportView( element );
-    }
-
     public void aktualisiereElement( Component element ) {
         if( element == null ) return;
         this.element.setVisible( false );
         this.setViewportView( element );
+        this.element = element;
     }
 }

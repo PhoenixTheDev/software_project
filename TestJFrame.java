@@ -6,8 +6,8 @@ public class TestJFrame extends JFrame {
   public TestJFrame() { 
     super();
     setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-    int frameWidth = 1000; 
-    int frameHeight = 650;
+    int frameWidth = 1200; 
+    int frameHeight = 800;
     setSize( frameWidth, frameHeight );
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     int x = ( d.width - getSize().width ) / 2;
@@ -17,7 +17,7 @@ public class TestJFrame extends JFrame {
     setResizable( false );
     Container cp = getContentPane();
     cp.setLayout( null );
-    cp.add( new FragenDialog( 0, "random_id" ) );
+    cp.add( new FragenDialog( 1, "bru" ) );
     setVisible( true ); 
   }
   
