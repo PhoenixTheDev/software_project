@@ -22,7 +22,7 @@ class CustomScrollPane extends JScrollPane {
     }
 
     private void erstelleStandardAussehen() {
-        this.setBounds( 0, y, panelWidth, panelHeight - 60 );
+        this.setBounds( 0, y, panelWidth, panelHeight );
         this.setBackground( hintergrundFarbe );
         this.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED );
         this.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );

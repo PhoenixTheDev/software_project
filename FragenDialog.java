@@ -17,7 +17,7 @@ public class FragenDialog extends JPanel {
         if ( databaseConnector != null )
             this.databaseConnector = databaseConnector;
         else
-            this.databaseConnector = new DatabaseConnector( "10.120.33.187", 3306, "SoftwareProjektDB", "nepo2", "nepo" ); //Darioport: 62.155.187.115; Schulport: 10.120.33.187
+            this.databaseConnector = new DatabaseConnector( "62.155.187.115", 3306, "SoftwareProjektDB", "nepo2", "nepo" ); //Darioport: 62.155.187.115; Schulport: 10.120.33.187
         
         if ( this.databaseConnector.getErrorMessage() != null ) {
             this.add( new ErrorPanel( 1000, 600, "Es konnte keine Verbindung mit der Datenbank hergestellt werden" ) );

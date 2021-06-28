@@ -12,7 +12,7 @@ public class ButtonListe extends JPanel {
     String[] bewertet, unbewertet;
     DatabaseConnector databaseConnector;
 
-    public ButtonListe( String[] bewertet, String[] unbewertet, int panelWidth, int panelHeight, int yPos, DatabaseConnector databaseConnector, Fragebogen fragebogen, String id ) {
+    public ButtonListe( String[] bewertet, String[] unbewertet, int panelWidth, int panelHeight, int yPos, DatabaseConnector databaseConnector, Fragebogen fragebogen, String id, AuswahlPanel ap ) {
         super();
         
         this.panelWidth = panelWidth;
@@ -38,6 +38,7 @@ public class ButtonListe extends JPanel {
                         databaseConnector.executeStatement( "SELECT id FROM schueler WHERE name = \"" + name[0] + "\" AND vorname = \"" + name[1] + "\"" );
                         fragebogen.ladeFragen( databaseConnector.getCurrentQueryResult().getData()[0][0], id );
                     }
+                    fragebogen.fragenHalter.ap = ap;
                 }
             }
         };

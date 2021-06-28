@@ -18,7 +18,6 @@ public class AuswahlPanel extends JPanel {
     SchuelerAuswahlButton letzterButton;
     CustomScrollPane buttonListenScrollPane;
     Suchleiste suchleiste;
-    //Suchleiste suchleiste;
 
     public AuswahlPanel( boolean istLehrer, String primaerschluessel, int panelX, int panelY, int panelWidth, int panelHeight, DatabaseConnector databaseConnector, Fragebogen fragebogen ) {
         this.width = panelWidth;
@@ -54,11 +53,11 @@ public class AuswahlPanel extends JPanel {
         String[] unbewertet = getUnbewerteteSchueler( "" );
         
         this.suchleisteErstellen(); //man kann nur suchen, wenn man lehrer ist
-        buttonListenScrollPane = new CustomScrollPane( 60, width, height, new ButtonListe( bewertet, unbewertet, width, 540, 0, databaseConnector, fragebogen, kuerzel ) );
+        buttonListenScrollPane = new CustomScrollPane( 60, width, height - 60, new ButtonListe( bewertet, unbewertet, width, 540, 0, databaseConnector, fragebogen, kuerzel, this ) );
         this.add( buttonListenScrollPane );
     }
 
-    private void ladeSchuelerUI() {
+    public void ladeSchuelerUI() {
         //als Schueler gibt es nur die Selbsteinschätzung
         String sql = "SELECT schuelerId FROM beantwortetSchueler WHERE schuelerId = \"" + id + "\""; //checken ob schon einmal Selbsteingeschätzt wurde
         String[] bewertet;
@@ -77,7 +76,7 @@ public class AuswahlPanel extends JPanel {
             bewertet = new String[ 0 ];
             unbewertet[ 0 ] = "Selbstbewertung";
         }
-        buttonListenScrollPane = new CustomScrollPane( 60, width, height, new ButtonListe( bewertet, unbewertet, width, 600, 0, databaseConnector, fragebogen, id ) );
+        buttonListenScrollPane = new CustomScrollPane( 60, width, height, new ButtonListe( bewertet, unbewertet, width, 600, 0, databaseConnector, fragebogen, id, this ) );
         this.add( buttonListenScrollPane );
     }
 
@@ -106,15 +105,15 @@ public class AuswahlPanel extends JPanel {
         ladeZubewertendeNeu();
     }
 
-    private void ladeZubewertendeNeu() {
-        String[] bewertet = getBewerteteSchueler( suchleiste.getText() );
-        String[] unbewertet = getUnbewerteteSchueler( suchleiste.getText() );
+    public void ladeZubewertendeNeu() {
+        String[] bewertet = getBewerteteSchueler( suchleiste != null ? suchleiste.getText() : "" );
+        String[] unbewertet = getUnbewerteteSchueler( suchleiste != null ? suchleiste.getText() : "" );
 
         buttonListeAktualisieren(unbewertet, bewertet);
     }
 
     private void buttonListeAktualisieren( String[] unbewertet, String[] bewertet ) {
-        buttonListenScrollPane.aktualisiereElement( new ButtonListe( bewertet, unbewertet, width, 600, 0, databaseConnector, fragebogen, id ) );
+        buttonListenScrollPane.aktualisiereElement( new ButtonListe( bewertet, unbewertet, width, 600, 0, databaseConnector, fragebogen, id, this ) );
     }
 
     private String[] getBewerteteSchueler( String suche ) {
@@ -124,9 +123,11 @@ public class AuswahlPanel extends JPanel {
             + "JOIN beantwortetLehrer AS b "
             + "ON s.id = b.schueler "
             + "WHERE b.kuerzel = \"" + kuerzel + "\" "
-            + ( suche.equals( "" ) ? "" : "AND (s.name LIKE \"%" + suche +  "%\" OR s.vorname LIKE \"%" + suche + "%\")" ); //alle beantworteten schueler bekommen
+            + "AND s.id IN (SELECT DISTINCT schuelerId FROM istInLerngruppe AS i JOIN lerngruppe AS l ON i.name = l.name WHERE l.kuerzel = \"" + kuerzel + "\")"
+            + ( suche.equals( "" ) ? "" : " AND (s.name LIKE \"%" + suche +  "%\" OR s.vorname LIKE \"%" + suche + "%\")" ); //alle beantworteten schueler bekommen
 
         databaseConnector.executeStatement(sqlBewertet);
+        System.out.println( databaseConnector.getErrorMessage() );
         qr = databaseConnector.getCurrentQueryResult();
         String[] bewertet = new String[ qr.getRowCount() ];
         for ( int i = 0; i < qr.getRowCount(); i++ ) {
@@ -147,7 +148,8 @@ public class AuswahlPanel extends JPanel {
                 + "JOIN beantwortetLehrer AS b "
                 + "ON s.id = b.schueler "
                 + "WHERE b.kuerzel = \"" + kuerzel + "\") "
-            + ( suche.equals( "" ) ? "" : "AND (s.name LIKE \"%" + suche +  "%\" OR s.vorname LIKE \"%" + suche + "%\")" ); //alle unbeantworteten schueler bekommen
+            + "AND s.id IN (SELECT DISTINCT schuelerId FROM istInLerngruppe AS i JOIN lerngruppe AS l ON i.name = l.name WHERE l.kuerzel = \"" + kuerzel + "\")"
+            + ( suche.equals( "" ) ? "" : " AND (s.name LIKE \"%" + suche +  "%\" OR s.vorname LIKE \"%" + suche + "%\")" ); //alle unbeantworteten schueler bekommen
 
         databaseConnector.executeStatement( sqlUnbewertet );
         qr = databaseConnector.getCurrentQueryResult();

@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ public class FragenHalter extends JPanel {
     CheckAntwort[] checkArray;
     String schuelerId, lehrerId;
     DatabaseConnector databaseConnector;
+    public AuswahlPanel ap;
 
     int width, height;
 
@@ -24,7 +26,8 @@ public class FragenHalter extends JPanel {
     }
 
     private void erstelleAussehen( boolean saveButtonActive ) {
-        this.setBounds( 0, 0, this.width, this.height );
+        this.setBounds( 0, 0, this.width, this.height + 40 );
+        this.setPreferredSize( new Dimension( this.width, this.height + 40 ) );
         this.setBackground( KonstanteWerte.BASIS_FARBEN[3] );
         this.setLayout( null );
 
@@ -38,12 +41,17 @@ public class FragenHalter extends JPanel {
                         ta.speichern( databaseConnector, schuelerId, lehrerId );
                     for ( CheckAntwort ca : checkArray )
                         ca.speichern( databaseConnector, schuelerId, lehrerId );
+                    if ( !lehrerId.equals( "" ) )
+                        ap.ladeZubewertendeNeu();
+                    else
+                        ap.ladeSchuelerUI();
                 }
             });
-            bSpeichern.setBounds( width / 2 - 50, height - 50, 100, 50 );
+            bSpeichern.setBounds( width / 2 - 50, height, 100, 30 );
             bSpeichern.setText( "Speichern" );
             bSpeichern.setForeground( KonstanteWerte.STANDARD_FARBE );
             bSpeichern.setBackground( KonstanteWerte.BASIS_FARBEN[0] );
+            bSpeichern.setFocusPainted( false );
             bSpeichern.setBorder( new LineBorder( KonstanteWerte.STANDARD_FARBE ) );
             this.add( bSpeichern );
         }
